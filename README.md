@@ -92,3 +92,9 @@ Kalau pakai Mutex, hanya satu thread yang bisa akses data dalam kondisi apapun, 
 2. Di Rust, static variable harus punya ukuran yang diketahui saat compile time dan tidak boleh diubah sembarangan karena alasan keamanan memory dan thread safety. Beeda dengan Java, Rust memaksa kita untuk secara eksplisit menghandle mutability dan ownership. lazy_static digunakan supaya kita bisa inisialisasi static variable yang kompleks (seperti Vec atau DashMap) saat runtime pertama kali diakses, sekaligus tetap menjamin keamanannya dengan wrapper seperti RwLock atau DashMap
 
 #### Reflection Subscriber-2
+
+1. Saya sempat melihat src/lib.rs untuk memahami konfigurasi global seperti APP_CONFIG dan REQWEST_CLIENT yang digunakan di service. Dari sana saya belajar bagaimana lazy_static digunakan untuk inisialisasi konfigurasi dari environment variable, dan bagaimana REQWEST_CLIENT dibuat sebagai HTTP client singleton yang dipakai di seluruh aplikasi
+
+2. Observer pattern sangat memudahkan penambahan subscriber baru. Kita cukup menjalankan instance Receiver baru dan subscribe ke product type yang diinginkan, main app tidak perlu diubah sama sekali. Untuk menambah instance main app, perlu sedikit penyesuaian karena setiap Receiver menyimpan subscriber URL yang merujuk ke satu publisher, tapi secara keseluruhan sistem masih cukup mudah dikembangkan
+
+3. Saya mencoba fitur dokumentasi di Postman dengan menambahkan deskripsi pada setiap request. Fitur ini cukup berguna terutama untuk group project karena memudahkan anggota tim lain memahami endpoint yang tersedia tanpa harus membaca kode langsung
