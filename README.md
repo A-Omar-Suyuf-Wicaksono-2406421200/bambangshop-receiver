@@ -86,4 +86,9 @@ This is the place for you to write reflections:
 
 #### Reflection Subscriber-1
 
+1. RwLock digunakan karena memungkinkan banyak thread membaca data secara bersamaan, tapi hanya satu thread yang bisa menulis pada satu waktu. Ini cocok untuk NOTIFICATIONS karena operasi read (list) jauh lebih sering terjadi daripada write (add). 
+Kalau pakai Mutex, hanya satu thread yang bisa akses data dalam kondisi apapun, termasuk saat read, ini tidak efisien karena sebenarnya multiple read secara bersamaan itu aman dan tidak menyebabkan data race
+
+2. Di Rust, static variable harus punya ukuran yang diketahui saat compile time dan tidak boleh diubah sembarangan karena alasan keamanan memory dan thread safety. Beeda dengan Java, Rust memaksa kita untuk secara eksplisit menghandle mutability dan ownership. lazy_static digunakan supaya kita bisa inisialisasi static variable yang kompleks (seperti Vec atau DashMap) saat runtime pertama kali diakses, sekaligus tetap menjamin keamanannya dengan wrapper seperti RwLock atau DashMap
+
 #### Reflection Subscriber-2
